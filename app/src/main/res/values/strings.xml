@@ -1,0 +1,70 @@
+<resources>
+    <string name="app_name">NoticeBoard</string>
+    <string name="open">Open</string>
+    <string name="close">Close</string>
+    <string name="no_result">Нет результата!</string>
+    <string name="ad_id">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="ad_inter_id">ca-app-pub-3940256099942544/1033173712</string>
+
+    <!--Menu Drawer Strings -->
+    <string name="ad_cat1">Обьявление</string>
+    <string name="ad_my_ads">Мои обьявления</string>
+    <string name="ad_my_favs">Мои избранные</string>
+    <string name="empty">Объявлений нет</string>
+    <string name="def">Все объявления</string>
+    <string name="ad_car">Машины</string>
+    <string name="ad_pc">Компьютеры</string>
+    <string name="ad_smartphone">Смартфоны</string>
+    <string name="ad_dm">Бытовая техника</string>
+    <string name="ad_cat2">Аккаунт</string>
+    <string name="acc_sign_up">Регистрация</string>
+    <string name="acc_sign_in">Вход</string>
+    <string name="acc_sign_out">Выход</string>
+    <string name="note_reg">Войдите или зарегистрируйтесь!</string>
+
+
+    <!--Sign Dialog Strings -->
+    <string name="email_reset_password_was_sent">Reset Email was sent!</string>
+    <string name="email_hint">Email</string>
+    <string name="dialog_reset_email_message">Для восстановления пароля, укажите ваш Email адрес!</string>
+    <string name="password_hint">Password</string>
+    <string name="sign_in_action">Войти</string>
+    <string name="sign_up_action">Зарегистрироваться</string>
+    <string name="forget_password">Забыли пароль?</string>
+    <string name="sign_up_error">Неудалось зарегистрироваться!</string>
+    <string name="sign_in_error">Неудалось войти!</string>
+    <string name="sign_in_guest">Гость</string>
+    <string name="send_verification_email_error">Неудалось отправить письмо для подтверждения!</string>
+    <string name="send_verification_email_done">На вашу почту было отправлено письмо для потверждения вашего аккаунта!</string>
+    <!--Link accounts -->
+    <string name="link_done">Эл. почта успешна подключена к Google аккаунту</string>
+    <string name="enter_to_g">У вас уже есть аккаунт с такой электронной почтой</string>
+    <!--Toast for error -->
+    <string name="need_register_email">Такой эл.почты не существует, пожалуйста зарегистрируйтесь!</string>
+    <!--Edit Activity -->
+    <string name="select_country">*Выберите страну</string>
+    <string name="select_city">*Выберите город</string>
+    <string name="no_country_selected">Страна не выбрана</string>
+    <string name="country">Страна</string>
+    <string name="city">Город</string>
+    <string name="index">Индекс</string>
+    <string name="index_hint">*Индекс</string>
+    <string name="number">Телефон</string>
+    <string name="tel_number">*Номер телефон</string>
+    <string name="category">Категория</string>
+    <string name="select_category">*Выберите категория</string>
+    <string name="price">Цена</string>
+    <string name="price_hint">*Укажите цену</string>
+    <string name="description">Описание</string>
+    <string name="description_hint">*Введите описание</string>
+    <string name="with_send">С отправкой</string>
+    <string name="send">Отправка</string>
+    <string name="publish">Опубликовать</string>
+    <string name="title">Заголовок</string>
+    <string name="title_hint">*Название объявления</string>
+    <!--Progress bar -->
+    <string name="loading">Загрузка...</string>
+    <!--Announcement list item -->
+    <string name="price_desc">Цена:</string>
+
+</resources>

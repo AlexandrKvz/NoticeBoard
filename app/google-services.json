@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "448114182271",
+    "firebase_url": "https://noticeboard-350017-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "noticeboard-350017",
+    "storage_bucket": "noticeboard-350017.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:448114182271:android:fab976bde7d757b21c574a",
+        "android_client_info": {
+          "package_name": "com.xotkins.noticeboard"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "448114182271-62r2t3amn5raq1dl8ukd8dfi52u4of06.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.xotkins.noticeboard",
+            "certificate_hash": "efaf4720e0ab77ac2fa2401bc6b4265ef02c71ca"
+          }
+        },
+        {
+          "client_id": "448114182271-0q9uc08ih87rcf85ro4gvntjdphgve6l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyARGxilLaQXdhFu7D7WTskJkCmz6ACogpw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "448114182271-0q9uc08ih87rcf85ro4gvntjdphgve6l.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
