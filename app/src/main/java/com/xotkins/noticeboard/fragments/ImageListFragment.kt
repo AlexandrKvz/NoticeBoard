@@ -77,7 +77,7 @@ class ImageListFragment(private val fragCloseInterface: FragmentCloseInterface):
             val bitmapList = ImageManager.imageResize(newList, activity)// загружаются картинки
             dialog.dismiss()//как картинки нарисовались, прогресс бар закрывается
             adapter.updateAdapter(bitmapList, needClear)//передаём данные для картинок
-            if(adapter.mainArray.size > 2) addImageItem?.isVisible = false //если картинок больше 4 прячем кнопку
+            if(adapter.mainArray.size > 2) addImageItem?.isVisible = false //если картинок больше 2 прячем кнопку
         }
     }
 
@@ -86,8 +86,9 @@ class ImageListFragment(private val fragCloseInterface: FragmentCloseInterface):
             tb.inflateMenu(R.menu.menu_choose_image)
             val deleteItem = tb.menu.findItem(R.id.delete_image)
             addImageItem = tb.menu.findItem(R.id.add_image)
+            if(adapter.mainArray.size > 2) addImageItem?.isVisible = false //если картинок больше 2 прячем кнопку
             tb.setNavigationOnClickListener {
-            //    showInterAd()
+                showInterAd()
             }
             deleteItem.setOnMenuItemClickListener {
                 adapter.updateAdapter(ArrayList(), true)
@@ -97,14 +98,14 @@ class ImageListFragment(private val fragCloseInterface: FragmentCloseInterface):
             addImageItem?.setOnMenuItemClickListener {
                 val imageCount =
                     ImagePicker.MAX_IMAGE_CONST - adapter.mainArray.size //указываем что добавить картинок можно только до 5
-                ImagePicker.getMultiImages(activity as EditAnnouncementsActivity, imageCount)
+                ImagePicker.addImages(activity as EditAnnouncementsActivity, imageCount)
                 true
             }
         }
     }
 
-    fun updateAdapter(newList: ArrayList<Uri>){ //ф-ция для обновления адаптера(обновления картинок после редактирования)
-        resizeSelectedImages(newList, false, activity as Activity)
+    fun updateAdapter(newList: ArrayList<Uri>, activity: Activity){ //ф-ция для обновления адаптера(обновления картинок после редактирования)
+        resizeSelectedImages(newList, false, activity)
     }
 
     fun setSingleImage(uri: Uri, position: Int){ //ф-ция выбираем элемент при редактировании его и перезаписываем на новый

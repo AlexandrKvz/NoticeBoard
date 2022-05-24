@@ -47,6 +47,19 @@ object ImagePicker {
         }
     }
 
+    fun addImages(edAct: EditAnnouncementsActivity, imageCounter: Int) { //принимает данные с EditAdsActivity
+        val f = edAct.chooseImageFragment
+        edAct.addPixToActivity(R.id.place_holder, getOptions(imageCounter)){result ->
+            when(result.status){
+                PixEventCallback.Status.SUCCESS ->{
+                    edAct.chooseImageFragment = f
+                    openChooseImageFragment(edAct, f!!)
+                    edAct.chooseImageFragment?.updateAdapter(result.data as ArrayList<Uri>, edAct)
+                }
+            }
+        }
+    }
+
     fun getSingleImage(edAct: EditAnnouncementsActivity) { //принимает данные с EditAdsActivity
         val f = edAct.chooseImageFragment
         edAct.addPixToActivity(R.id.place_holder, getOptions(1)){result ->
@@ -71,20 +84,19 @@ object ImagePicker {
         }
     }
 
-    fun getMultiSelectedImages(edAct: EditAnnouncementsActivity, uris: List<Uri>) { //ф-ция слушатель
+    fun getMultiSelectedImages(edAct: EditAnnouncementsActivity, uris: List<Uri>, ) { //ф-ция слушатель
         if (uris.size!! > 1 && edAct.chooseImageFragment == null) {//добавляем больше одной картинки
             edAct.openChooseImageFragment(uris as ArrayList<Uri>)
         } else if (uris.size == 1 && edAct.chooseImageFragment == null) { //добавляем 1 картинку
-                        job = CoroutineScope(Dispatchers.Main).launch {
-                            edAct.binding.pBarLoad.visibility = View.VISIBLE// делаем видимым
+            job = CoroutineScope(Dispatchers.Main).launch {
+                edAct.binding.pBarLoad.visibility = View.VISIBLE// делаем видимым
                 val bitmapList = ImageManager.imageResize(uris, edAct)//загружается картинка
-                            edAct.binding.pBarLoad.visibility = View.GONE//как загрузилась картинка делаем невидимым
-                            edAct.imageAdapter.update(bitmapList as ArrayList<Bitmap>)//обновляем адаптер
-                        }
-                    } else if (edAct.chooseImageFragment != null) {
-            edAct.chooseImageFragment?.updateAdapter(uris as ArrayList<Uri>)
-                }
+                edAct.binding.pBarLoad.visibility = View.GONE//как загрузилась картинка делаем невидимым
+                edAct.imageAdapter.update(bitmapList as ArrayList<Bitmap>)//обновляем адаптер
+                closePixFragment(edAct)
             }
+        }
+    }
 
 
 
