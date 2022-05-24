@@ -4,15 +4,18 @@ package com.xotkins.noticeboard.utils
 
 import android.content.Intent
 import android.graphics.Bitmap
+import android.net.Uri
 import android.view.View
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AppCompatActivity
-import com.fxn.pix.Options
-import com.fxn.pix.Pix
-import com.fxn.utility.PermUtil
+import androidx.fragment.app.Fragment
+import com.xotkins.noticeboard.R
 import com.xotkins.noticeboard.activity.EditAnnouncementsActivity
+import io.ak1.pix.helpers.PixEventCallback
+import io.ak1.pix.helpers.addPixToActivity
+import io.ak1.pix.models.Mode
+import io.ak1.pix.models.Options
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -24,54 +27,70 @@ object ImagePicker {
     var job: Job? = null
 
     private fun getOptions(imageCounter: Int): Options {
-        val options = Options.init()
-            .setCount(imageCounter)                                        //Number of images to restict selection count
-            .setFrontfacing(false)                                         //Front Facing camera on start
-            .setMode(Options.Mode.Picture)                                 //Option to select only pictures or videos or both
-            .setScreenOrientation(Options.SCREEN_ORIENTATION_PORTRAIT)     //Orientaion
-            .setPath("/pix/images")                                        //Custom Path For media Storage
+        val options = Options().apply {
+            count = imageCounter
+            isFrontFacing = false
+            mode = Mode.Picture
+            path = "/pix/images"
+        }
         return options
     }
 
-    fun launcher(edAct: EditAnnouncementsActivity, launcher: ActivityResultLauncher<Intent>?, imageCounter: Int) { //принимает данные с EditAdsActivity
-        PermUtil.checkForCamaraWritePermissions(edAct) {
-            val intent = Intent(edAct, Pix::class.java).apply {
-                putExtra("options", getOptions(imageCounter)) //передаём параметры, которая требует библиотека Pix
-    }
-            launcher?.launch(intent)
+    fun getMultiImages(edAct: EditAnnouncementsActivity, imageCounter: Int) { //принимает данные с EditAdsActivity
+        edAct.addPixToActivity(R.id.place_holder, getOptions(imageCounter)){result ->
+            when(result.status){
+                PixEventCallback.Status.SUCCESS ->{
+                    getMultiSelectedImages(edAct, result.data)
+                    closePixFragment(edAct)
+                }
+            }
         }
     }
 
-    fun getLauncherMultiSelectImages(edAct: EditAnnouncementsActivity): ActivityResultLauncher<Intent> { //ф-ция слушатель
-        return edAct.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
-            if (result.resultCode == AppCompatActivity.RESULT_OK) {
-                if (result.data != null) {
-                    val returnValues = result.data?.getStringArrayListExtra(Pix.IMAGE_RESULTS)
-                    if (returnValues?.size!! > 1 && edAct.chooseImageFragment == null) {//добавляем больше одной картинки
-                        edAct.openChooseImageFragment(returnValues)
-                    } else if (returnValues.size == 1 && edAct.chooseImageFragment == null) { //добавляем 1 картинку
+    fun getSingleImage(edAct: EditAnnouncementsActivity) { //принимает данные с EditAdsActivity
+        val f = edAct.chooseImageFragment
+        edAct.addPixToActivity(R.id.place_holder, getOptions(1)){result ->
+            when(result.status){
+                PixEventCallback.Status.SUCCESS ->{
+                    edAct.chooseImageFragment = f
+                    openChooseImageFragment(edAct, f!!)
+                    singleImage(edAct, result.data[0])
+                }
+            }
+        }
+    }
+
+    private fun openChooseImageFragment(edAct: EditAnnouncementsActivity, f: Fragment){
+        edAct.supportFragmentManager.beginTransaction().replace(R.id.place_holder, f).commit()
+    }
+
+    private fun closePixFragment(edAct: EditAnnouncementsActivity){
+        val flist = edAct.supportFragmentManager.fragments
+                flist.forEach {
+                    if(it.isVisible) edAct.supportFragmentManager.beginTransaction().remove(it).commit()
+        }
+    }
+
+    fun getMultiSelectedImages(edAct: EditAnnouncementsActivity, uris: List<Uri>) { //ф-ция слушатель
+        if (uris.size!! > 1 && edAct.chooseImageFragment == null) {//добавляем больше одной картинки
+            edAct.openChooseImageFragment(uris as ArrayList<Uri>)
+        } else if (uris.size == 1 && edAct.chooseImageFragment == null) { //добавляем 1 картинку
                         job = CoroutineScope(Dispatchers.Main).launch {
                             edAct.binding.pBarLoad.visibility = View.VISIBLE// делаем видимым
-                            val bitmapList = ImageManager.imageResize(returnValues)//загружается картинка
+                val bitmapList = ImageManager.imageResize(uris, edAct)//загружается картинка
                             edAct.binding.pBarLoad.visibility = View.GONE//как загрузилась картинка делаем невидимым
                             edAct.imageAdapter.update(bitmapList as ArrayList<Bitmap>)//обновляем адаптер
                         }
                     } else if (edAct.chooseImageFragment != null) {
-                        edAct.chooseImageFragment?.updateAdapter(returnValues)
-                    }
+            edAct.chooseImageFragment?.updateAdapter(uris as ArrayList<Uri>)
                 }
             }
-        }
-    }
 
-    fun getLauncherForSingleImage(edAct: EditAnnouncementsActivity): ActivityResultLauncher<Intent> {//ф-ция слушатель
-        return edAct.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
-            if (result.resultCode == AppCompatActivity.RESULT_OK) {
-                if (result.data != null) {
-                    val uris = result.data?.getStringArrayListExtra(Pix.IMAGE_RESULTS)
-                    edAct.chooseImageFragment?.setSingleImage(uris?.get(0)!!, edAct.editImagePosition)
-                }
-            }
-        }
+
+
+
+    private fun singleImage(edAct: EditAnnouncementsActivity, uri: Uri){//ф-ция слушатель
+        edAct.chooseImageFragment?.setSingleImage(uri, edAct.editImagePosition)
+
     }
 }

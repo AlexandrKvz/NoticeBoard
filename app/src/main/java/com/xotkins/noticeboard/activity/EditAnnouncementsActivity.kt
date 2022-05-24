@@ -1,14 +1,13 @@
 package com.xotkins.noticeboard.activity
 
-import android.content.Intent
-import android.content.pm.PackageManager
+
 import android.graphics.Bitmap
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
-import androidx.activity.result.ActivityResultLauncher
+
 import androidx.appcompat.app.AppCompatActivity
-import com.fxn.utility.PermUtil
 import com.xotkins.noticeboard.R
 import com.xotkins.noticeboard.adapters.ImageAdapter
 import com.xotkins.noticeboard.databinding.ActivityEditAnnouncementsBinding
@@ -29,8 +28,6 @@ class EditAnnouncementsActivity : AppCompatActivity(), FragmentCloseInterface {
     lateinit var imageAdapter: ImageAdapter
     var chooseImageFragment: ImageListFragment? = null
     var editImagePosition = 0
-    var launcherMultiSelectImage: ActivityResultLauncher<Intent>? = null
-    var launcherSingleSelectImage: ActivityResultLauncher<Intent>? = null
     private var isEditState = false
     private var announcement: Announcement? = null
 
@@ -68,25 +65,10 @@ class EditAnnouncementsActivity : AppCompatActivity(), FragmentCloseInterface {
         edDescription.setText(announcement.description)
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        when (requestCode) {
-            PermUtil.REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS -> {
-                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                  //  ImagePicker.getImage(this, 5, ImagePicker.REQUEST_CODE_GET_IMAGES)
-                } else {
-                    Toast.makeText(this,"Approve permissions to open Pix ImagePicker", Toast.LENGTH_LONG).show()
-                }
-                return
-            }
-        }
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-    }
-
     private fun init(){
         imageAdapter = ImageAdapter()
         binding.vpImages.adapter = imageAdapter
-        launcherMultiSelectImage = ImagePicker.getLauncherMultiSelectImages(this) //ф-ция находится в ImagePicker
-        launcherSingleSelectImage = ImagePicker.getLauncherForSingleImage(this) //ф-ция находится в ImagePicker
+
     }
 
     //OnClicks
@@ -115,7 +97,7 @@ class EditAnnouncementsActivity : AppCompatActivity(), FragmentCloseInterface {
 
     fun onClickGetImages(view: View) { //запуск ф-ции для картинок
         if(imageAdapter.mainArray.size == 0){//если картинок нет, то открывается окно для добавления
-            ImagePicker.launcher(this, launcherMultiSelectImage, 3)
+            ImagePicker.getMultiImages(this, 3)
         }else{
             openChooseImageFragment(null) //для редактирования
             chooseImageFragment?.updateAdapterFromEdit(imageAdapter.mainArray)
@@ -165,8 +147,9 @@ class EditAnnouncementsActivity : AppCompatActivity(), FragmentCloseInterface {
         chooseImageFragment = null
     }
 
-    fun openChooseImageFragment(newList: ArrayList<String>?){//ф-ция для запуска фрагмента
-        chooseImageFragment = ImageListFragment(this, newList)
+    fun openChooseImageFragment(newList: ArrayList<Uri>?){//ф-ция для запуска фрагмента
+        chooseImageFragment = ImageListFragment(this)
+        if(newList != null)chooseImageFragment?.resizeSelectedImages(newList, true, this)
         binding.scrollViewMain.visibility = View.GONE
         val fragmentManager = supportFragmentManager.beginTransaction()
         fragmentManager.replace(R.id.place_holder, chooseImageFragment!!)

@@ -2,6 +2,7 @@ package com.xotkins.noticeboard.fragments
 
 import android.app.Activity
 import android.graphics.Bitmap
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MenuItem
@@ -9,7 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
 import androidx.core.view.get
-import androidx.fragment.app.Fragment
+
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.xotkins.noticeboard.R
@@ -27,7 +28,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
-class ImageListFragment(private val fragCloseInterface: FragmentCloseInterface, private val newList: ArrayList<String>?): BaseAdsFragment(), AdapterCallback {
+class ImageListFragment(private val fragCloseInterface: FragmentCloseInterface): BaseAdsFragment(), AdapterCallback {
     val adapter = SelectImageRvAdapter(this)
     private val dragCallback = ItemTouchMoveCallback(adapter)
     val touchHelper = ItemTouchHelper(dragCallback)
@@ -48,8 +49,6 @@ class ImageListFragment(private val fragCloseInterface: FragmentCloseInterface, 
             touchHelper.attachToRecyclerView(rcViewSelectImage)
             rcViewSelectImage.layoutManager = LinearLayoutManager(activity)
             rcViewSelectImage.adapter = adapter
-            if (newList != null) resizeSelectedImages(newList, true)
-
         }
     }
 
@@ -72,10 +71,10 @@ class ImageListFragment(private val fragCloseInterface: FragmentCloseInterface, 
         activity?.supportFragmentManager?.beginTransaction()?.remove(this)?.commit()
     }
 
-    private fun resizeSelectedImages(newList: ArrayList<String>, needClear: Boolean){
+    fun resizeSelectedImages(newList: ArrayList<Uri>, needClear: Boolean, activity: Activity){
         job = CoroutineScope(Dispatchers.Main).launch { //создаём крутину и запускаем её на основном потоке, чтобы можно было запустить ф-цию fun imageResize в фоновом потоке, но нужно обязательно закрывать её
-            val dialog = ProgressDialog.createProgressDialog(activity as Activity)//открывается прогресс бар
-            val bitmapList = ImageManager.imageResize(newList)// загружаются картинки
+            val dialog = ProgressDialog.createProgressDialog(activity)//открывается прогресс бар
+            val bitmapList = ImageManager.imageResize(newList, activity)// загружаются картинки
             dialog.dismiss()//как картинки нарисовались, прогресс бар закрывается
             adapter.updateAdapter(bitmapList, needClear)//передаём данные для картинок
             if(adapter.mainArray.size > 2) addImageItem?.isVisible = false //если картинок больше 4 прячем кнопку
@@ -98,23 +97,21 @@ class ImageListFragment(private val fragCloseInterface: FragmentCloseInterface, 
             addImageItem?.setOnMenuItemClickListener {
                 val imageCount =
                     ImagePicker.MAX_IMAGE_CONST - adapter.mainArray.size //указываем что добавить картинок можно только до 5
-                ImagePicker.launcher(activity as EditAnnouncementsActivity,
-                    (activity as EditAnnouncementsActivity).launcherMultiSelectImage,
-                    imageCount)
+                ImagePicker.getMultiImages(activity as EditAnnouncementsActivity, imageCount)
                 true
             }
         }
     }
 
-    fun updateAdapter(newList: ArrayList<String>){ //ф-ция для обновления адаптера(обновления картинок после редактирования)
-        resizeSelectedImages(newList, false)
+    fun updateAdapter(newList: ArrayList<Uri>){ //ф-ция для обновления адаптера(обновления картинок после редактирования)
+        resizeSelectedImages(newList, false, activity as Activity)
     }
 
-    fun setSingleImage(uri: String, position: Int){ //ф-ция выбираем элемент при редактировании его и перезаписываем на новый
+    fun setSingleImage(uri: Uri, position: Int){ //ф-ция выбираем элемент при редактировании его и перезаписываем на новый
         val pBar = binding.rcViewSelectImage[position].findViewById<ProgressBar>(R.id.pBar)
         job = CoroutineScope(Dispatchers.Main).launch { //создаём крутину и запускаем её на основном потоке, чтобы можно было запустить ф-цию fun imageResize в фоновом потоке, но нужно обязательно закрывать её
             pBar.visibility = View.VISIBLE
-            val bitmapList = ImageManager.imageResize(listOf(uri))
+            val bitmapList = ImageManager.imageResize(arrayListOf(uri), activity as Activity)
             pBar.visibility = View.GONE
             adapter.mainArray[position] = bitmapList[0]
             adapter.notifyItemChanged(position)
