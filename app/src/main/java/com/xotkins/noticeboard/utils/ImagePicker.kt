@@ -36,7 +36,7 @@ object ImagePicker {
         return options
     }
 
-    fun getMultiImages(edAct: EditAnnouncementsActivity, imageCounter: Int) { //принимает данные с EditAdsActivity
+    fun getMultiImages(edAct: EditAnnouncementsActivity, imageCounter: Int) { //ф-ция для добавления нескольких картинок
         edAct.addPixToActivity(R.id.place_holder, getOptions(imageCounter)){result ->
             when(result.status){
                 PixEventCallback.Status.SUCCESS ->{
@@ -47,34 +47,30 @@ object ImagePicker {
         }
     }
 
-    fun addImages(edAct: EditAnnouncementsActivity, imageCounter: Int) { //принимает данные с EditAdsActivity
-        val f = edAct.chooseImageFragment
+    fun addImages(edAct: EditAnnouncementsActivity, imageCounter: Int) { //ф-ция для добавления картинок, когда уже 1 есть
         edAct.addPixToActivity(R.id.place_holder, getOptions(imageCounter)){result ->
             when(result.status){
                 PixEventCallback.Status.SUCCESS ->{
-                    edAct.chooseImageFragment = f
-                    openChooseImageFragment(edAct, f!!)
+                    openChooseImageFragment(edAct)
                     edAct.chooseImageFragment?.updateAdapter(result.data as ArrayList<Uri>, edAct)
                 }
             }
         }
     }
 
-    fun getSingleImage(edAct: EditAnnouncementsActivity) { //принимает данные с EditAdsActivity
-        val f = edAct.chooseImageFragment
+    fun getSingleImage(edAct: EditAnnouncementsActivity) { //ф-ция для добавления одной картинки
         edAct.addPixToActivity(R.id.place_holder, getOptions(1)){result ->
             when(result.status){
                 PixEventCallback.Status.SUCCESS ->{
-                    edAct.chooseImageFragment = f
-                    openChooseImageFragment(edAct, f!!)
+                    openChooseImageFragment(edAct)
                     singleImage(edAct, result.data[0])
                 }
             }
         }
     }
 
-    private fun openChooseImageFragment(edAct: EditAnnouncementsActivity, f: Fragment){
-        edAct.supportFragmentManager.beginTransaction().replace(R.id.place_holder, f).commit()
+    private fun openChooseImageFragment(edAct: EditAnnouncementsActivity){
+        edAct.supportFragmentManager.beginTransaction().replace(R.id.place_holder, edAct.chooseImageFragment!!).commit()
     }
 
     private fun closePixFragment(edAct: EditAnnouncementsActivity){

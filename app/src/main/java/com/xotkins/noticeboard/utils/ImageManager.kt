@@ -6,7 +6,11 @@ import android.graphics.BitmapFactory
 import android.net.Uri
 import android.widget.ImageView
 import com.squareup.picasso.Picasso
+import com.xotkins.noticeboard.adapters.ImageAdapter
+import com.xotkins.noticeboard.model.Announcement
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 
@@ -61,5 +65,23 @@ object ImageManager { // менеджер для контроля загружа
            }
         }
             return@withContext bitmapList
+    }
+
+    private suspend fun getBitmapFromUris(uris: List<String?>): List<Bitmap> = withContext(Dispatchers.IO){//ф-ция для получения картинок с storage
+        val bitmapList = ArrayList<Bitmap>() //создаём массив элементов
+        for(i in uris.indices) {//берём список и перебираем его для получения битмапов
+            kotlin.runCatching {
+                bitmapList.add(Picasso.get().load(uris[i]).get())//здесь мы записываем ссылки битмап
+            }
+        }
+        return@withContext bitmapList //возвращаем заполненый битмап
+    }
+
+    fun fillImageArray(announcement: Announcement, adapter: ImageAdapter){ //ф-ция для заполнения картинок
+        val listUris = listOf(announcement.image1, announcement.image2, announcement.image3) //получаем ссылки загруженных картинок
+        CoroutineScope(Dispatchers.Main).launch {
+            val bitMapList = getBitmapFromUris(listUris) //здесь ссылки превращаем в bitmap
+            adapter.update(bitMapList as ArrayList<Bitmap>)
+        }
     }
 }

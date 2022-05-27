@@ -14,16 +14,19 @@
         <entry key="..\:/Users/alexa/AndroidStudioProjects/NoticeBoard/app/src/main/res/drawable/ic_eye.xml" value="0.1815" />
         <entry key="..\:/Users/alexa/AndroidStudioProjects/NoticeBoard/app/src/main/res/drawable/ic_fav.xml" value="0.1815" />
         <entry key="..\:/Users/alexa/AndroidStudioProjects/NoticeBoard/app/src/main/res/drawable/ic_fav_normal.xml" value="0.1815" />
+        <entry key="..\:/Users/alexa/AndroidStudioProjects/NoticeBoard/app/src/main/res/drawable/ic_filter.xml" value="0.1815" />
         <entry key="..\:/Users/alexa/AndroidStudioProjects/NoticeBoard/app/src/main/res/drawable/ic_launcher_foregrou.xml" value="0.196" />
         <entry key="..\:/Users/alexa/AndroidStudioProjects/NoticeBoard/app/src/main/res/drawable/ic_new.xml" value="0.2525" />
         <entry key="..\:/Users/alexa/AndroidStudioProjects/NoticeBoard/app/src/main/res/drawable/ic_new_ads.xml" value="0.1945" />
         <entry key="..\:/Users/alexa/AndroidStudioProjects/NoticeBoard/app/src/main/res/drawable/ic_new_shop_item.xml" value="0.1945" />
+        <entry key="..\:/Users/alexa/AndroidStudioProjects/NoticeBoard/app/src/main/res/layout/activity_description.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/alexa/AndroidStudioProjects/NoticeBoard/app/src/main/res/layout/activity_edit_ads.xml" value="0.36666666666666664" />
-        <entry key="..\:/Users/alexa/AndroidStudioProjects/NoticeBoard/app/src/main/res/layout/activity_edit_announcements.xml" value="0.4905923344947735" />
+        <entry key="..\:/Users/alexa/AndroidStudioProjects/NoticeBoard/app/src/main/res/layout/activity_edit_announcements.xml" value="0.33" />
+        <entry key="..\:/Users/alexa/AndroidStudioProjects/NoticeBoard/app/src/main/res/layout/activity_filter.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/alexa/AndroidStudioProjects/NoticeBoard/app/src/main/res/layout/activity_main.xml" value="0.33" />
         <entry key="..\:/Users/alexa/AndroidStudioProjects/NoticeBoard/app/src/main/res/layout/announcement_list_item.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/alexa/AndroidStudioProjects/NoticeBoard/app/src/main/res/layout/image_adapter_item.xml" value="0.36666666666666664" />
-        <entry key="..\:/Users/alexa/AndroidStudioProjects/NoticeBoard/app/src/main/res/layout/list_image_fragment.xml" value="0.1" />
+        <entry key="..\:/Users/alexa/AndroidStudioProjects/NoticeBoard/app/src/main/res/layout/list_image_fragment.xml" value="0.33" />
         <entry key="..\:/Users/alexa/AndroidStudioProjects/NoticeBoard/app/src/main/res/layout/main_content.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/alexa/AndroidStudioProjects/NoticeBoard/app/src/main/res/layout/nav_header_main.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/alexa/AndroidStudioProjects/NoticeBoard/app/src/main/res/layout/progress_dialog_layout.xml" value="0.36666666666666664" />

@@ -6,6 +6,17 @@
     <string name="ad_id">ca-app-pub-3940256099942544/6300978111</string>
     <string name="ad_inter_id">ca-app-pub-3940256099942544/1033173712</string>
 
+    <!--Boolean withSend -->
+    <string name="yes">Да</string>
+    <string name="no">Нет</string>
+    <!--Text for sendEmail -->
+    <string name="announcement_subject">Объявление</string>
+    <string name="announcement_text">Меня интересует ваше объявление!</string>
+    <!--Activity Filter -->
+    <string name="done_filter">Фильтровать</string>
+    <string name="clear">Очистить фильтр</string>
+    <!--data time -->
+    <string name="publish_time">Время публикации</string>
     <!--Menu Drawer Strings -->
     <string name="ad_cat1">Обьявление</string>
     <string name="ad_my_ads">Мои обьявления</string>
@@ -21,6 +32,7 @@
     <string name="acc_sign_in">Вход</string>
     <string name="acc_sign_out">Выход</string>
     <string name="note_reg">Войдите или зарегистрируйтесь!</string>
+    <string name="filter">Фильтр</string>
 
 
     <!--Sign Dialog Strings -->
@@ -41,6 +53,13 @@
     <string name="enter_to_g">У вас уже есть аккаунт с такой электронной почтой</string>
     <!--Toast for error -->
     <string name="need_register_email">Такой эл.почты не существует, пожалуйста зарегистрируйтесь!</string>
+    <!--Description  Activity -->
+    <string name="number_desc">Телефон:</string>
+    <string name="email_desc">Эл. почта:</string>
+    <string name="country_desc">Страна:</string>
+    <string name="city_desc">Город:</string>
+    <string name="index_desc">Индекс:</string>
+    <string name="with_send_desc">С отправкой:</string>
     <!--Edit Activity -->
     <string name="select_country">*Выберите страну</string>
     <string name="select_city">*Выберите город</string>
@@ -51,6 +70,8 @@
     <string name="index_hint">*Индекс</string>
     <string name="number">Телефон</string>
     <string name="tel_number">*Номер телефон</string>
+    <string name="email">Эл.почта</string>
+    <string name="inp_email">*Укажите эл.почту</string>
     <string name="category">Категория</string>
     <string name="select_category">*Выберите категория</string>
     <string name="price">Цена</string>

@@ -11,4 +11,6 @@
     <color name="gray">#F5F2F2</color>
     <color name="gray_dark">#DFDCDC</color>
     <color name="yellow">#FFEB3B</color>
+    <color name="dark_red">#94000C</color>
+    <color name="progressBar_gray_dark">#70AFAFAF</color>
 </resources>

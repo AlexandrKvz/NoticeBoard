@@ -10,7 +10,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
 import androidx.core.view.get
-
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.xotkins.noticeboard.R
@@ -37,7 +36,7 @@ class ImageListFragment(private val fragCloseInterface: FragmentCloseInterface):
     lateinit var binding: ListImageFragmentBinding
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        binding = ListImageFragmentBinding.inflate(layoutInflater)
+        binding = ListImageFragmentBinding.inflate(layoutInflater, container, false)
         adView = binding.adView
         return binding.root
     }
@@ -60,15 +59,11 @@ class ImageListFragment(private val fragCloseInterface: FragmentCloseInterface):
         adapter.updateAdapter(bitmapList, true)//передаём данные для картинок
     }
 
-    override fun onDetach() {
-        super.onDetach()
-        fragCloseInterface.onFragmentClose(adapter.mainArray)
-        job?.cancel() // закрывает крутину, если мы вышли с фрагмента
-    }
-
     override fun onClose() {
         super.onClose()
         activity?.supportFragmentManager?.beginTransaction()?.remove(this)?.commit()
+        fragCloseInterface.onFragmentClose(adapter.mainArray)
+        job?.cancel() // закрывает крутину, если мы вышли с фрагмента
     }
 
     fun resizeSelectedImages(newList: ArrayList<Uri>, needClear: Boolean, activity: Activity){
